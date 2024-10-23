@@ -1,1 +1,954 @@
-echo "Hello World"
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lauras og Frederiks Bryllup</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #ffe6e6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        header {
+            background-color: #ffcccc;
+            padding: 20px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            color: #800000;
+            text-align: center;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #ffb3b3;
+            padding: 10px;
+        }
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #800000;
+            font-weight: bold;
+        }
+        section {
+            padding: 20px;
+            margin: 10px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        /* Home section */
+        .home-section {
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .home-section .slide {
+            background-position: top;
+            background-size: cover;
+            position: absolute;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 1s ease-in-out;
+        }
+
+        .home-section .slide.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .home-section .slide:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: -1;
+        }
+
+        .home-section .row {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .home-section .home-content {
+            flex: 0 0 100%;
+            max-width: 100%;
+            padding: 0 15px;
+            text-align: center;
+        }
+
+        .home-section .home-content p { /* Farve for 'Vi skal giftes' */
+            font-size: 24px;
+            color: #ffffff;
+            margin: 0 0 15px;
+        }
+
+        .home-section .slide.active .home-content p { /* Dette får overskriften til at slide ned */
+            opacity: 0;
+            animation: fadeInTop 1s ease forwards;
+        }
+
+        @keyframes fadeInTop {
+            0% {
+                transform: translateY(-50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0px);
+            }
+        }
+
+        .home-section .home-content h1 { /* Farve og skrift for 'Laura & Frederik' */
+            font-size: 80px;
+            color: #ffffff;
+            margin: 0;
+            font-weight: normal;
+            font-family: "Great Vibes", cursive;
+        }
+
+        .home-section .slide.active .home-content h1 { /* Dette får overskriften til at slide ned */
+            opacity: 0;
+            animation: fadeInTop 1s ease forwards;
+            animation-delay: 0.5s;
+        }
+
+        .home-section .home-content span { /* Farve og cirkel for datoen på forsiden */
+            font-size: 20px;
+            display: inline-block;
+            border: 1px solid #ffffff;
+            border-radius: 30px;
+            color: #ffffff;
+            padding: 7px 30px;
+            margin: 15px 0 0;
+        }
+
+        .home-section .slide.active .home-content span { /* Dette får datoen til at slide ned */
+            opacity: 0;
+            animation: fadeInTop 1s ease forwards;
+            animation-delay: 1s;
+        }
+
+
+        /* Om os sektion styles */
+        .info-section h3 {
+            color: #fb839e;
+            margin-top: 20px;
+        }
+        .about-us {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .about-us .person {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .about-us .person img {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            border: 5px solid #fb839e;
+        }
+        .about-us .person h2 {
+            font-family: 'Great Vibes', cursive;
+            color: #fb839e;
+            margin: 10px 0 5px;
+        }
+        .about-us .person .social-links {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .about-us .person .social-links a {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border: 2px solid #fb839e;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fb839e;
+            text-decoration: none;
+        }
+        .about-us .divider {
+            width: 2px;
+            height: 200px;
+            background-color: #fb839e;
+            position: relative;
+        }
+        .about-us .divider::after {
+            content: '';
+            width: 24px;
+            height: 24px;
+            background: url('heart.png') no-repeat center center / contain;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Tidsplan sektion styles */
+        .timeline {
+            position: relative;
+            margin: 20px 0;
+            padding: 20px 0;
+        }
+        .timeline::before { /* dette er midterlinjen */
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #800000;
+            left: 50%;
+            margin-left: -1px;
+        }
+        .timeline-item {
+            position: relative;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .timeline-item:nth-child(odd) .content {
+            text-align: right;
+            margin-left: 100px;
+        }
+        .timeline-item:nth-child(even) .content {
+            text-align: left;
+            margin-right: 100px;
+        }
+        .timeline-item img {
+            width: 20%;
+            height: auto;
+            border-radius: 8px;
+            margin: 0 225px;
+        }
+        .timeline-item .content { /* billederne i tidslinjen */ 
+            width: 50%;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            text-align: center;
+        }
+        .timeline-item .content h3 {
+            margin: 0 0 10px;
+            color: #800000;
+        }
+        .timeline-item .content p {
+            margin: 0;
+        }
+        .timeline-item .heart {
+            position: absolute;
+            top: 20px;
+            width: 24px;
+            height: 24px;
+            background: url('heart.png') no-repeat center center / contain;
+        }
+        .timeline-item:nth-child(odd) .heart {
+            right: -12px;
+        }
+        .timeline-item:nth-child(even) .heart {
+            left: -12px;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #ffcccc;
+        }
+        /* Additional CSS for timeline to have opposite sides images and texts */
+        .timeline-item img { /* størrelse på billederne */
+            width: 15%;
+            height: auto;
+        }
+        .timeline-item .content {
+            width: 30%;
+        }
+
+/* Event section styles */
+.event-boxes {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 20px;
+        }
+        .event-box {
+            background-color: #fff;
+            border: 2px solid #ffb3b3;
+            border-radius: 8px;
+            padding: 20px;
+            width: 200px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        .event-box:nth-child(2) {
+            margin-top: 40px;
+        }
+        .event-box h3 {
+            font-weight: bold;
+            color: #800000;
+        }
+        .event-box p {
+            margin: 5px 0;
+        }
+        .event-box .date {
+            color: #ff66b2;
+            font-weight: bold;
+        }
+
+        /* Ønskeliste Sektion */
+
+        .onskeliste {
+        padding: 50px 0;
+        background-color: #f9f9f9;
+        text-align: center;
+        }
+
+        .onskeliste h2 {
+            font-size: 36px;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .onskeliste .onskeliste-box {
+            display: inline-block;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 80%;
+        }
+
+        .onskeliste img {
+            max-width: 30%; /* Sørger for at billedet ikke bliver bredere end sin beholder */
+            height: auto; /* Beholder billedets proportioner */
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+
+        /* Personer Sektion */
+        .personer-sektion {
+            padding: 60px 0;
+            background-color: #fff;
+        }
+
+        .personer-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .person-boks {
+            width: 300px;
+            height: 400px;
+            text-align: center;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .person-boks:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .person-billede {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            border: 3px solid #fb839e;
+            object-fit: cover;
+        }
+
+        .person-info {
+            margin-top: 15px;
+        }
+
+        .person-navn {
+            font-size: 20px;
+            color: #fb839e;
+            font-weight: bold;
+        }
+
+        .person-rolle {
+            font-size: 16px;
+            color: #555;
+            margin-top: 5px;
+        }
+
+        .person-social-links {
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .person-social-icon {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #fb839e;
+            color: #fff;
+            text-align: center;
+            line-height: 40px;
+            font-size: 18px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .person-social-icon:hover {
+            background-color: #e07a9b;
+            transform: scale(1.1);
+        }
+
+        /* S.U. section styles */
+        .rsu-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .rsu-form {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
+        .rsu-form h2, .rsu-form h3 {
+            margin-top: 0;
+            color: #800000;
+        }
+        .rsu-form label {
+            display: block;
+            margin: 10px 0 5px;
+            color: #333;
+        }
+        .rsu-form input, .rsu-form select, .rsu-form textarea {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .rsu-form button {
+            background-color: #ffb3b3;
+            border: none;
+            color: #800000;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+        }
+        .rsu-form button:hover {
+            background-color: #ff9999;
+        }
+
+        /* lokation sektion styles */
+        .location-section {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        .location-box {
+            background-color: #fff;
+            border: 2px solid #ffb3b3;
+            border-radius: 8px;
+            padding: 20px;
+            flex: 1;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .location-box h3 {
+            color: #800000;
+            font-weight: bold;
+        }
+        .location-box p {
+            color: #333;
+        }
+        .map-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        .map {
+            width: 100%;
+            height: 200px;
+            border: 2px solid #ffb3b3;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Musikknap */
+        .fa-music {
+            position: fixed;
+            right: 15px;
+            bottom: 15px;
+            width: 40px;
+            height: 40px;
+            border: 1px solid transparent;
+            z-index: 1;
+            cursor: pointer;
+            line-height: 38px;
+            text-align: center;
+            border-radius: 50%;
+            box-shadow: 0 0 2px #444444;
+            text-shadow: 0 0 1px #444444;
+            background-color: #800000;
+            color: #ffffff;
+            font-size: 18px;
+        }
+
+        /* Stregen vises kun, når .pause klassen er tilføjet */
+        .fa-music.pause::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 2px;
+            height: 100%;
+            background-color: #ffffff;
+            transform: translateX(-50%) translateY(-50%) rotate(-36deg);
+        }
+
+        /* Skift farve ved hover */
+        .fa-music:hover {
+            background-color: #fb839e;
+            box-shadow: 0 0 5px #444444;
+            text-shadow: 0 0 3px #ffffff;
+        }
+
+
+    </style>
+</head>
+
+
+<body>
+
+    <header>
+        <h1>Lauras og Frederiks bryllup</h1>
+    </header>
+    
+    <nav>
+        <a href="#forside">Forside</a>
+        <a href="#om-os">Om Os</a>
+        <a href="#tidsplan">Tidsplan</a>
+        <a href="#event">Event</a>
+        <a href="#lokation">Lokation</a>
+        <a href="#onskeliste">Ønskeliste</a>
+        <a href="#personer">Personer</a>
+        <a href="#vaerd-at-vide">Værd at Vide</a>
+        <a href="#su">S.U.</a>
+    </nav>
+
+
+<!-- Forside sektion starter -->
+<section class="home-section">
+    <!-- Slide 1 -->
+    <div class="slide active" style="background-image: url(Billeder/Forside/par1.jpeg);">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="home-content">
+            <p>Vi skal giftes</p>
+            <h1>Laura & Frederik</h1>
+            <span>23 August 2025</span>
+          </div></div></div>
+    </div> 
+    <!-- Slide 2 -->
+    <div class="slide" style="background-image: url(Billeder/Forside/parbillede.jpeg);">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="home-content">
+            <p>Vi skal giftes</p>
+            <h1>Laura & Frederik</h1>
+            <span>23 August 2025</span>
+          </div></div></div>
+    </div> 
+    <!-- Slide 3 -->
+    <div class="slide" style="background-image: url(Billeder/Forside/sorthvid.jpeg);">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="home-content">
+            <p>Vi skal giftes</p>
+            <h1>Laura & Frederik</h1>
+            <span>23 August 2025</span>
+          </div></div></div>
+    </div> 
+  </section>
+  <!-- Forside sektion slutter -->
+
+    <section id="om-os">
+        <h2>Det forelskede par</h2>
+        <div class="about-us">
+            <div class="person">
+                <img src="Billeder/Om os/Frederik.jpg" alt="Frederik Huse Jensen">
+                <h2>Frederik Huse Jensen</h2>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/frederik.jensen.58?locale=da_DK" title="facebook">
+                        <i class="fab fa-facebook-f"></i>
+                      </a>
+                      <a href="https://www.instagram.com/frederikhj96?igsh=cnF6OXFmNHB3cWM4" title="instagram">
+                        <i class="fab fa-instagram"></i>
+                      </a>
+                </div>
+            </div>
+            <div class="divider"></div>
+            <div class="person">
+                <img src="Billeder/Om os/Laura.jpg" alt="Laura Vijaya Kjær Jørgensen">
+                <h2>Laura Vijaya Kjær Jørgensen</h2>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/lauravkj?locale=da_DK" title="facebook">
+                        <i class="fab fa-facebook-f"></i>
+                      </a>
+                    <a href="https://www.instagram.com/lauravkj?igsh=MTl4NTh2dDJ2Nm9teg%3D%3D&utm_source=qr" title="instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div></div>
+        </div>
+    </section>
+
+    <section id="tidsplan">
+        <h2>Tidsplan</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="content">
+                    <h3>13.30 Vielse i Budolfi Kirke</h3>
+                    <p>Vielsen finder sted i Budolfi Kirke efterfulgt af billeder foran kirken.</p>
+                </div>
+                <img src="Billeder/Tidsplan/1.png" alt="Vielse">
+                <div class="heart"></div>
+            </div>
+            <div class="timeline-item">
+                <img src="Billeder/Tidsplan/10.png" alt="Bus">
+                <div class="content">
+                    <h3>14.30 Bussen kører mod Rold StorKro</h3>
+                    <p>Der er sørget for bustransport til de gæster, som ønsker dette.</p>
+                </div>
+                <div class="heart"></div>
+            </div>
+            <div class="timeline-item">
+                <div class="content">
+                    <h3>15.00 Fotografering af brudeparret</h3>
+                    <p>Der bliver taget nogle smukke billeder af brudeparret imens gæsterne er til receptionen.</p>
+                </div>
+                <img src="Billeder/Tidsplan/2.png" alt="Fotograf">
+                <div class="heart"></div>
+            </div>
+            <div class="timeline-item">
+                <img src="Billeder/Tidsplan/3.png" alt="Reception">
+                <div class="content">
+                    <h3>15.00 Reception</h3>
+                    <p>Reception med drinks og snacks til gæsterne.</p>
+                </div>
+                <div class="heart"></div>
+            </div> 
+            <div class="timeline-item">
+                <div class="content">
+                    <h3>16.00 Bryllupskage</h3>
+                    <p>Brudeparret deltager i receptionen, skærer bryllupskagen og deler den med gæsterne.</p>
+                </div>
+                <img src="Billeder/Tidsplan/4.png" alt="Bryllupskage">
+                <div class="heart"></div>
+            </div>
+            <div class="timeline-item">
+                <img src="Billeder/Tidsplan/5.png" alt="Middag">
+                <div class="content">
+                    <h3>17.30 Middag</h3>
+                    <p>Brudeparret serverer en lækker middag til gæsterne.</p>
+                </div>
+                <div class="heart"></div>
+            </div>
+            <div class="timeline-item">
+                <div class="content">
+                    <h3>22.30 Fest og musik</h3>
+                    <p>Vi danser og har musik til festlighederne.</p>
+                </div>
+                <img src="Billeder/Tidsplan/6.png" alt="Fest og musik">
+                <div class="heart"></div>
+            </div>
+            <div class="timeline-item">
+                <img src="Billeder/Tidsplan/7.png" alt="Brudevals">
+                <div class="content">
+                    <h3>23.30 Brudevals</h3>
+                    <p>Vi har vores første dans som ægtepar.</p>
+                </div>
+                <div class="heart"></div>
+            </div>
+            <div class="timeline-item">
+                <div class="content">
+                    <h3>01.00 Natmad</h3>
+                    <p>Der serveres natmad til sultne gæster.</p>
+                </div>
+                <img src="Billeder/Tidsplan/8.png" alt="Natmat">
+                <div class="heart"></div>
+            </div>
+            <div class="timeline-item">
+                <img src="Billeder/Tidsplan/9.png" alt="Festen fortsætter">
+                <div class="content">
+                    <h3>01.30 Festen fortsætter</h3>
+                    <p>Festen fortsætter natten igennem!</p>
+                </div>
+                <div class="heart"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="event">
+        <h2>Vær med at fejre vores kærlighed</h2>
+        <div class="event-boxes">
+            <div class="event-box">
+                <h3>Vielse</h3>
+                <p class="date" style="color: #fb839e;">23. august 2025 13.30-14.00</p>
+                <p>Budolfi Kirke</p>
+                <p>Algade 40, 9000 Aalborg</p>
+            </div>
+            <div class="event-box">
+                <h3>Reception</h3>
+                <p class="date" style="color: #fb839e;">23. august 2025 15.00-17.30</p>
+                <p>Rold StorKro</p>
+                <p>Vælderskoven 13, 9520 Skørping</p>
+            </div>
+            <div class="event-box">
+                <h3>Bryllupsfest</h3>
+                <p class="date" style="color: #fb839e;">23. august 2025 17.30-04.00</p>
+                <p>Rold StorKro</p>
+                <p>Vælderskoven 13, 9520 Skørping</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="lokation">
+        <h2>Lokation</h2>
+        <div class="location-section">
+            <div class="location-box">
+                <h3>Vielsen</h3>
+                <p>Adresse: Algade 40, 9000 Aalborg</p>
+                <p>Klokken: 13:30</p>
+            </div>
+            <div class="location-box">
+                <h3>Receptionen og Fest</h3>
+                <p>Adresse: Vælderskoven 13, 9520 Skørping</p>
+                <p>Reception: 15:00</p>
+                <p>Fest: 17:30</p>
+            </div>
+        </div>
+        <div class="map-container">
+            <iframe class="map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2244.0000000000005!2d9.000000000000001!3d55.00000000000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0000000000000000%3A0x000000000000000!2sKirkevej%201%2C%209000%20Aalborg!5e0!3m2!1sen!2sdk!4v1615014000000!5m2!1sen!2sdk" allowfullscreen="" loading="lazy"></iframe>
+            <iframe class="map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2244.0000000000005!2d9.000000000000001!3d55.00000000000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0000000000000000%3A0x000000000000000!2sFestvej%2010%2C%209000%20Aalborg!5e0!3m2!1sen!2sdk!4v1615014000000!5m2!1sen!2sdk" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </section>
+
+    <section id="onskeliste">
+        <div class="container">
+            <h2>Ønskeliste</h2>
+            <p>Det er vores største ønske at du/I er med til at fejre vores store dag, men hvis du/I mangler et ekstra ønske, er vi gerne behjælpelige med nogle ideer. Scan denne QR kode med telefonen, eller kontakt gavekoordinatoren for at tilgå vores ønskeseddel.</p>
+            <div class="onskeliste-box">
+                <img src="Billeder/ønsker.png" alt="Ønskeliste">
+            </div>
+        </div>
+    </section>
+
+    <!-- Personer Sektion -->
+    <section class="personer-sektion">
+        <h2>Personer</h2>
+        <div class="container">
+            <div class="personer-row">
+                <!-- Første person boks -->
+                <div class="person-boks">
+                    <img src="Billeder/Personer/Marcus.jpg" alt="Marcus Bisgaard Jensen" class="person-billede">
+                    <div class="person-info">
+                        <p class="person-navn">Marcus Bisgaard Jensen</p>
+                        <p class="person-rolle">Forlover</p>
+                        <div class="person-social-links">
+                            <a href="https://www.facebook.com/Marcus.Bisgaard.Jensen?locale=da_DK target="_blank" class="person-social-icon">
+                                <i class="bi bi-facebook"></i>
+                            </a>
+                            <a href="https://www.instagram.com/mbisgaardjensen/" target="_blank" class="person-social-icon">
+                                <i class="bi bi-instagram"></i>
+                            </a>
+                        </div></div></div>
+                <!-- Anden person boks -->
+                <div class="person-boks">
+                    <img src="Billeder/Personer/Trine.jpg" alt="Trine Hartmann" class="person-billede">
+                    <div class="person-info">
+                        <p class="person-navn">Trine Hartmann</p>
+                        <p class="person-rolle">Brudepige</p>
+                        <div class="person-social-links">
+                            <a href="https://www.facebook.com/Trine16?locale=da_DK" target="_blank" class="person-social-icon">
+                                <i class="bi bi-facebook"></i>
+                            </a>
+                            <a href="https://www.instagram.com/trille_h/" target="_blank" class="person-social-icon">
+                                <i class="bi bi-instagram"></i>
+                            </a>
+                        </div></div></div>
+                <!-- Tredje person boks -->
+                <div class="person-boks">
+                    <img src="Billeder/Personer/Mathias.jpg" alt="Mathias Huse Jensen" class="person-billede">
+                    <div class="person-info">
+                        <p class="person-navn">Mathias Huse Jensen</p>
+                        <p class="person-rolle">Toastmaster</p>
+                        <div class="person-social-links">
+                            <a href="https://www.facebook.com/Cheece?locale=da_DK" target="_blank" class="person-social-icon">
+                                <i class="bi bi-facebook"></i>
+                            </a>
+                            <a href="https://www.instagram.com/mathiashusejensen7/" target="_blank" class="person-social-icon">
+                                <i class="bi bi-instagram"></i>
+                            </a>
+                        </div></div></div></div></div>
+    </section>
+    
+    <section id="vaerd-at-vide">
+        <h2>Værd at Vide</h2>
+        <h3 style="color: #fb839e;">Parkering ved kirken</h3>
+        <p>Man kan desværre ikke holde ude foran Budolfi Kirken, men der er en parkeringskælder lige ved Rema1000 (Vingårdsgade 10), hvor der er mulighed for parkering mod betaling. Derudover kan man holde gratis ved langs Kildeparken (på Gammel Kærvej), hvor der er cirka 15 minutters gang til kirken.</p>
+        <h3 style="color: #fb839e;">Bus transport</h3>
+        <p>Der er mulighed for at vores gæster kan blive transporteret i bus efter vielsen i kirken til receptionen. For dem som gerne vil overnatte, er der ligeledes mulighed for at blive transporteret tilbage til Aalborg dagen efter festen. Der vil komme mere information om, hvornår bussen vil holde klar dagen efter og hvor den vil sætte gæsterne af (men umiddelbart efter gæsterne har fået morgenmad).</p>
+        <h3 style="color: #fb839e;">Børn</h3>
+        <p>Selvom vi elsker jeres børn, ønsker vi, at de mindste bliver hjemme denne aften. De er velkommen til vielsen, men selve receptionen og festen er forbeholdt 18+.</p>
+        <h3 style="color: #fb839e;">Overnatning</h3>
+        <p>Vi har reserveret værelser på Rold StorKro. Et dobbeltværelse koster 1.200 kr (inkl. morgenmad), hvor der er mulighed for 1 opredning for 400 kr. For overnattende gæster vil morgenmaden blive serveret den efterfølgende dag, fra kl. 8.00-10.00.</p>
+        <h3 style="color: #fb839e;">Billeder</h3>
+        <p>Dem af jer som tager nogle billeder med jeres telefoner i løbet af dagen og aftenen, må meget gerne dele dem med os, da vi nok ikke kommer til at have vores egne telefoner fremme på selve dagen. Dette fordi vi gerne vil nyde dagen og være 100% til stede med vores gæster.</p>
+        <h3 style="color: #fb839e;">Dresscode</h3>
+        <p>Der er ingen speciel dresscode, men gerne festligt og farverigt tøj, som passer til forhåbentlig det gode vejr.</p>
+        <h3 style="color: #fb839e;">Allergener</h3>
+        <p>Hvis der er allergener m.m. som køkkenet skal være opmærksom på, bedes I oplyse os om dette, senest d. 1. juli 2025.</p>
+    </section>
+
+    <section id="su">
+        <h2>Du er inviteret</h2>
+        <h3>S.U. senest d. 1. juni 2025</h3>
+        <div class="rsu-container">
+            <form action="send_su.php" method="POST" class="rsu-form">
+                <label for="name">Navn(e):</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="guests">Antal personer:</label>
+                <select id="guests" name="guests" required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+
+                <label for="attendance">Kan du komme?</label>
+                <select id="attendance" name="attendance" required>
+                    <option value="yes">Jeg/vi vil meget gerne deltage</option>
+                    <option value="no">Jeg/vi kan desværre ikke komme</option>
+                </select>
+
+                <label for="questions">Herunder er man velkommen til at skrive en personlig besked til brudeparret eller stille evt. spørgsmål:</label>
+                <textarea id="questions" name="questions" rows="4"></textarea>
+
+                <button type="submit">Send</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Vores Bryllup. Alle rettigheder forbeholdes.</p>
+    </footer>
+
+
+    <!-- Audio element -->
+    <audio id="myAudio" loop src="audio/Train-Marry Me.mp3" type="audio/mp3"></audio>
+
+    <!-- Musikknap med musiknode -->
+    <i id="musicBtn" class="fa fa-music">&#9835;</i>
+
+    <!-- JavaScript til styring af musik -->
+    <script>
+        const audio = document.getElementById('myAudio');
+        const musicBtn = document.getElementById('musicBtn');
+
+        // Indstil starttidspunktet for afspilning til 5 sekunder
+        audio.currentTime = 11;
+        audio.play();
+
+        // Håndter klik på musikknappen
+        musicBtn.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play();
+                musicBtn.classList.remove('pause'); // Fjerner stregen, når musikken spiller
+            } else {
+                audio.pause();
+                musicBtn.classList.add('pause'); // Tilføjer stregen, når musikken er på pause
+            }
+        });
+    </script>
+
+    <!-- JavaScript til styring forsiden -->
+    <script>
+        let currentSlide = 0;
+    const slides = document.querySelectorAll('.home-section .slide');
+
+    function showSlide(index) {
+        slides.forEach(slide => slide.classList.remove('active'));
+        slides[index].classList.add('active');
+    }
+    function nextSlide() {
+        currentSlide = (currentSlide + 1) % slides.length;
+        showSlide(currentSlide);
+    }
+    setInterval(nextSlide, 5000); // Skifter slide hvert 5. sekund
+    </script>
+
+    <script>
+        let currentIndex = 0;
+        const images = document.querySelectorAll('.carousel img');
+        const texts = document.querySelectorAll('.carousel-text');
+        const totalImages = images.length;
+
+        function showNextImage() {
+            images[currentIndex].classList.remove('active');
+            texts[currentIndex].classList.remove('active');
+            currentIndex = (currentIndex + 1) % totalImages;
+            images[currentIndex].classList.add('active');
+            texts[currentIndex].classList.add('active');
+        }
+
+        setInterval(showNextImage, 6000);
+    </script>
+
+</body>
+</html>
